@@ -1,3 +1,5 @@
+mod db;
+
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {

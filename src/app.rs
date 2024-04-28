@@ -35,6 +35,7 @@ fn HomePage() -> impl IntoView {
     // Creates a reactive value to update the button
     let (count, set_count) = create_signal(0);
     let on_click = move |_| set_count.update(|count| *count += 1);
+    let (name, set_name) = create_signal("Controlled".to_string());
 
     view! {
         <h1>"Welcome to Leptos!"</h1>
@@ -42,33 +43,42 @@ fn HomePage() -> impl IntoView {
             "Click Me: "
             {count}
         </button>
-        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    Navbar
-                </a>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarColor01"
-                    aria-controls="navbarColor01"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarColor01">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                Home
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <ProgressBar progress=count/>
+        <input type="text"
+        
+        on:input=move |ev| {
+            // event_target_value is a Leptos helper function
+            // it functions the same way as event.target.value
+            // in JavaScript, but smooths out some of the typecasting
+            // necessary to make this work in Rust
+            set_name(event_target_value(&ev));
+        }
+
+        // the `prop:` syntax lets you update a DOM property,
+        // rather than an attribute.
+        prop:value=name
+    />
+    <p>"Name is: " {name}</p>
+              
     }
+}
+
+
+#[component]
+fn ProgressBar(
+    progress: ReadSignal<i32>
+) -> impl IntoView {
+    view! {
+        <progress
+            max="50"
+            // now this works
+            value=progress
+        ></progress>
+    }
+}
+
+struct CreateUserForm {
+    username: String,
+    email: String,
+    password: String,
 }

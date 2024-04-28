@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE users SET username = $1, email = $2, password_hash = $3 WHERE id = $4",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Int8"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "dcbc7bf25e4853dfe9f3fc78eb9ecc4473fdfb04eaf239f4a1aa348487e25ad5"
+}
